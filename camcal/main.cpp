@@ -10,6 +10,7 @@ using namespace std;
 Mat src, src_gray;
 int thresh = 100;
 int max_thresh = 255;
+int frames_correctos=0;
 
 void reconocer_elipses(int, void*);
 
@@ -38,9 +39,9 @@ int main( int argc, char** argv )
 		Mat frame;
 		vc >> frame;
 		c=c+1;
-		if ((c==1)||(c==240)||(c==480)||(c==720)||(c==960)||(c==1300)||(c==1420)||(c==1600))
+		//if ((c==1)||(c==240)||(c==480)||(c==720)||(c==960)||(c==1300)||(c==1420)||(c==1600))
 		{
-			cout<<endl<<"RESULTADOS DEL FRAME NRO:  "<<c<<endl<<endl;
+			cout<<endl<<"PROCESAMIENTO DE FRAME NRO :  "<<c<<endl<<endl;
 
 			src = frame.clone();
 
@@ -54,19 +55,24 @@ int main( int argc, char** argv )
 			createTrackbar( " Umbral de segmemtación:", "source", &thresh, max_thresh, reconocer_elipses );
 			reconocer_elipses( 0, 0 );
 
-			waitKey(0);
+			//waitKey();
 		}
 
 
-		if (c>1640)
+		if (c>1949)
 		{
+			cout<<"Frames Correctos : "<<frames_correctos<<" de 1950 "<<endl;	
+			waitKey();
 			return 0;
 		}
 
-		
+	  
 	}
 	
 }
+
+
+
 
 /** @function reconocer_elipses */
 void reconocer_elipses(int, void* )
@@ -130,8 +136,14 @@ void reconocer_elipses(int, void* )
 	   }
 
      }
+  if (cont==61)
+  {
+	  frames_correctos=frames_correctos+1;
+	  
+  }
 
   /// Mostrar resultados
+
   namedWindow( "Contours", CV_WINDOW_AUTOSIZE );
   imshow( "Contours", drawing );
 }
